@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabil Zukhrufi Abdilah - Personal Blog & Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- ROOT VARIABLES & RESET --- */
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #1a1a1a;
+            --accent: #ffffff;
+            --silver: #c0c0c0;
+            --gray-text: #a0a0a0;
+            --light-gray: #222222;
+            --font-title: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--accent);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-title);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* --- LOADING SCREEN --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .loader-logo {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 5px;
+            color: var(--accent);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- UTILITIES & ANIMATIONS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .section-padding {
+            padding: 6rem 0;
+        }
+        .badge {
+            background: var(--light-gray);
+            color: var(--silver);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            border: 1px solid #333;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            font-family: var(--font-title);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        /* Reveal Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- STICKY NAVBAR --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid transparent;
+        }
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 0;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+        }
+        .logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+        .nav-link {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--gray-text);
+            position: relative;
+            cursor: pointer;
+        }
+        .nav-link:hover, .nav-link.active-nav {
+            color: var(--accent);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-link:hover::after, .nav-link.active-nav::after {
+            width: 100%;
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        /* --- SPA PAGES CONTROL --- */
+        .page {
+            display: none;
+            padding-top: 5rem; /* Space for sticky nav */
+        }
+        .page.active-page {
+            display: block;
+        }
+
+        /* ==========================================
+           1. BERANDA (HOMEPAGE) SECTION
+           ========================================== */
+        /* HERO SECTION */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 800px;
+        }
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin-bottom: 2rem;
+            border: 3px solid var(--light-gray);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: var(--silver);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        .typing-container {
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            color: var(--silver);
+            min-height: 40px;
+            margin-bottom: 2.5rem;
+        }
+        .typing-text {
+            border-right: 2px solid var(--accent);
+            padding-right: 5px;
+            animation: blink 0.75s step-end infinite;
+            font-weight: 600;
+            color: #fff;
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent); }
+        }
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* HOME ABOUT */
+        .home-about {
+            background: var(--secondary);
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: var(--silver);
+            margin: 1rem auto 0 auto;
+        }
+        .home-about p {
+            max-width: 750px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--gray-text);
+            line-height: 1.8;
+        }
+
+        /* HOME RECENT ARTICLES */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .card {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .card-img {
+            width: 100%;
+            height: 200px;
+            background: #151515;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .card-img::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1f1f1f 0%, #0d0d0d 100%);
+            z-index: 1;
+        }
+        .card-img span {
+            position: relative;
+            z-index: 2;
+            color: var(--gray-text);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .card-body {
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--gray-text);
+            margin: 0.8rem 0;
+            display: flex;
+            gap: 1rem;
+        }
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        .card-text {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        .read-more {
+            font-family: var(--font-title);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+        }
+        .read-more:hover {
+            color: var(--silver);
+        }
+
+        /* ==========================================
+           2. TENTANG SAYA PAGE
+           ========================================== */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        .profile-sidebar {
+            background: var(--secondary);
+            padding: 2.5rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .profile-sidebar img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+        }
+        .profile-info-list {
+            list-style: none;
+            text-align: left;
+            margin-top: 2rem;
+        }
+        .profile-info-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .profile-info-list li span:first-child {
+            color: var(--gray-text);
+        }
+        .profile-main h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .bio-text {
+            font-size: 1.1rem;
+            color: var(--gray-text);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+        
+        /* SKILL BARS */
+        .skills-section {
+            margin-bottom: 3rem;
+        }
+        .skills-section h3 {
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .skill-item {
+            margin-bottom: 1.2rem;
+        }
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+        .skill-bar-bg {
+            background: var(--light-gray);
+            height: 6px;
+            border-radius: 3px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .skill-bar-fill {
+            background: var(--accent);
+            height: 100%;
+            width: 0; /* Dynamic loading via JS */
+            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* HOBBIES & INTERESTS */
+        .hobbies-section h3 {
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .hobby-card {
+            background: var(--secondary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: var(--transition);
+        }
+        .hobby-card:hover {
+            border-color: var(--silver);
+            transform: translateY(-3px);
+        }
+        .hobby-card i {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--silver);
+        }
+        .hobby-card p {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* CONTACT QUICK QUICK FORM */
+        .contact-quick {
+            margin-top: 4rem;
+            background: var(--secondary);
+            padding: 3rem;
+            border-radius: 6px;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            color: var(--silver);
+        }
+        .form-control {
+            width: 100%;
+            background: var(--primary);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.8rem;
+            border-radius: 4px;
+            color: var(--accent);
+            font-family: var(--font-body);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .social-large-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            padding-left: 2rem;
+        }
+        .social-large-container p {
+            margin-bottom: 1.5rem;
+            color: var(--gray-text);
+        }
+        .social-icons-large {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .social-icon-box {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-icon-box:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* ==========================================
+           3. DAFTAR BLOG PAGE & LAYOUT WITH SIDEBAR
+           ========================================== */
+        .blog-header {
+            text-align: center;
+            padding: 4rem 0 2rem 0;
+        }
+        .blog-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .blog-header p {
+            color: var(--gray-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* CATEGORY FILTER */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 2rem 0 4rem 0;
+        }
+        .filter-btn {
+            background: var(--secondary);
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--silver);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .filter-btn:hover, .filter-btn.active-filter {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        /* MAIN CONTENT + SIDEBAR LAYOUT */
+        .main-sidebar-layout {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 3.5rem;
+        }
+
+        /* BLOG GRID */
+        .blog-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 4rem;
+        }
+        .page-num {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .page-num:hover, .page-num.active-page-num {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* SIDEBAR COMPONENTS */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        .widget {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .widget-title {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 3px solid var(--accent);
+            padding-left: 0.8rem;
+        }
+        
+        /* Search Widget */
+        .search-box {
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            background: var(--primary);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.8rem 2.5rem 0.8rem 1rem;
+            border-radius: 4px;
+            color: var(--accent);
+        }
+        .search-box i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-text);
+        }
+
+        /* Popular Posts Widget */
+        .popular-posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .pop-post-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            cursor: pointer;
+        }
+        .pop-post-thumb {
+            width: 60px;
+            height: 60px;
+            background: #151515;
+            border-radius: 4px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #444;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .pop-post-info h4 {
+            font-size: 0.9rem;
+            line-height: 1.3;
+            margin-bottom: 0.2rem;
+        }
+        .pop-post-info h4:hover {
+            color: var(--silver);
+        }
+        .pop-post-info span {
+            font-size: 0.75rem;
+            color: var(--gray-text);
+        }
+
+        /* Category Widget */
+        .widget-category-list {
+            list-style: none;
+        }
+        .widget-category-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .widget-category-list li:hover {
+            color: var(--silver);
+        }
+        .widget-category-list span:last-child {
+            color: var(--gray-text);
+            background: var(--primary);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+
+        /* Tag Cloud Widget */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .tag-item {
+            background: var(--primary);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            color: var(--gray-text);
+            cursor: pointer;
+        }
+        .tag-item:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+
+        /* ==========================================
+           4. DETAIL ARTIKEL (SINGLE POST) PAGE
+           ========================================== */
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray-text);
+            margin-bottom: 1.5rem;
+        }
+        .breadcrumb a:hover {
+            color: var(--accent);
+        }
+        
+        .article-header h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        .article-meta-large {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--silver);
+        }
+        .article-meta-large i {
+            margin-right: 0.5rem;
+        }
+
+        .featured-image-large {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #222 0%, #050505 100%);
+            border-radius: 6px;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-text);
+            font-family: var(--font-title);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Typography for Article Content */
+        .article-content {
+            font-size: 17px;
+            line-height: 1.85;
+            color: #dddddd;
+        }
+        .article-content p {
+            margin-bottom: 1.8rem;
+        }
+        .article-content h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1.2rem 0;
+            color: var(--accent);
+        }
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem 0;
+            color: var(--silver);
+        }
+        .article-content blockquote {
+            border-left: 4px solid var(--silver);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--gray-text);
+        }
+        
+        /* Footer Article Elements */
+        .article-footer-tags {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .article-tag {
+            color: var(--silver);
+            font-size: 0.85rem;
+        }
+        
+        .share-box-container {
+            margin-top: 2rem;
+            background: var(--secondary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .share-box-container span {
+            font-size: 0.9rem;
+            font-family: var(--font-title);
+        }
+        .share-social-btns {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .share-btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            background: var(--primary);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .share-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* RELATED POSTS SECTION */
+        .related-posts {
+            margin-top: 5rem;
+        }
+        .related-posts h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* COMMENTS SECTION */
+        .comments-section {
+            margin-top: 5rem;
+        }
+        .comments-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .comment-item {
+            background: var(--secondary);
+            padding: 1.8rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+        }
+        .comment-author {
+            font-weight: 600;
+            font-family: var(--font-title);
+        }
+        .comment-date {
+            color: var(--gray-text);
+        }
+        .comment-text {
+            font-size: 0.95rem;
+            color: var(--silver);
+        }
+        .comment-form-container {
+            background: var(--secondary);
+            padding: 2.5rem;
+            border-radius: 6px;
+        }
+        .comment-form-container h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* ==========================================
+           5. PORTFOLIO & KONTAK PLACEHOLDERS (FOR SPA COMPLETENESS)
+           ========================================== */
+        .placeholder-page {
+            text-align: center;
+            padding: 6rem 0;
+        }
+        .placeholder-page h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- SCROLL TO TOP BUTTON --- */
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: var(--transition);
+        }
+        #scrollTopBtn:hover {
+            transform: translateY(-5px);
+            background: var(--silver);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--secondary);
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            margin-top: 6rem;
+        }
+        .footer-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .footer-brand p {
+            color: var(--gray-text);
+            font-size: 0.85rem;
+            max-width: 400px;
+        }
+        .footer-socials {
+            display: flex;
+            gap: 1.2rem;
+        }
+        .footer-socials a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            color: var(--silver);
+        }
+        .footer-socials a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.8rem;
+            color: var(--gray-text);
+        }
+
+        /* --- RESPONSIVE DESIGN BREAKPOINTS --- */
+        @media (max-width: 992px) {
+            .main-sidebar-layout {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .grid-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: -100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                align-items: center;
+                padding: 4rem 0;
+                gap: 2rem;
+                transition: 0.5s ease;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .nav-menu.active {
+                top: 70px;
+            }
+            .hamburger {
+                display: block;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .blog-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .social-large-container {
+                border-left: none;
+                padding-left: 0;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(255,255,255,0.05);
+            }
+            .hobbies-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .featured-image-large {
+                height: 250px;
+            }
+            .article-meta-large {
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hobbies-grid {
+                grid-template-columns: 1fr;
+            }
+            .share-box-container {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-logo">SZA</div>
+    </div>
+
+    <header id="navbar">
+        <div class="nav-container">
+            <div class="logo">SZA</div>
+            <button class="hamburger" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a class="nav-link active-nav" data-page="beranda">Beranda</a></li>
+                <li><a class="nav-link" data-page="tentang">Tentang Saya</a></li>
+                <li><a class="nav-link" data-page="blog">Blog</a></li>
+                <li><a class="nav-link" data-page="portfolio">Portofolio</a></li>
+                <li><a class="nav-link" data-page="kontak">Kontak</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <button id="scrollTopBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+
+    <div id="page-beranda" class="page active-page">
+        <section class="hero container">
+            <div class="hero-content">
+                <img src="https://ui-avatars.com/api/?name=Sabil+Zukhrufi+Abdilah&background=silver&color=000&size=200" alt="Sabil Zukhrufi Abdilah" class="profile-img">
+                <h1>Halo, Saya Sabil 👋</h1>
+                <div class="subtitle">Mahasiswa Teknik Sipil | Blogger | Future Civil Engineer</div>
+                <div class="typing-container">
+                    I am a <span class="typing-text"></span>
+                </div>
+                <div class="hero-btns">
+                    <button class="btn btn-primary" onclick="switchPage('blog')">Lihat Blog Saya</button>
+                    <button class="btn btn-secondary" onclick="switchPage('tentang')">Tentang Saya</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-about section-padding">
+            <div class="container reveal">
+                <h2 class="section-title">Tentang Saya</h2>
+                <p>
+                    Saya adalah mahasiswa Teknik Sipil yang memiliki ketertarikan tinggi dalam dunia konstruksi, perancangan struktur, dan geoteknik. Lewat media blog pribadi ini, saya mendedikasikan waktu di sela perkuliahan untuk membagikan catatan belajar, ringkasan teori, serta pengalaman praktis di lapangan. Saya percaya bahwa membagikan ilmu secara tertulis adalah cara terbaik untuk memperkuat pemahaman sekaligus membangun ekosistem belajar yang positif bagi sesama mahasiswa teknik.
+                </p>
+            </div>
+        </section>
+
+        <section class="home-articles section-padding container">
+            <h2 class="section-title reveal">Artikel Terbaru</h2>
+            <div class="grid-3">
+                <div class="card reveal" onclick="openArticle()">
+                    <div class="card-img"><span>STRUKTUR BETON</span></div>
+                    <div class="card-body">
+                        <div><span class="badge">Teknik Sipil</span></div>
+                        <div class="card-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 10 Jan 2025</span>
+                            <span><i class="fa-regular fa-clock"></i> 5 Min Baca</span>
+                        </div>
+                        <h3 class="card-title">Mengenal Struktur Beton Bertulang untuk Pemula</h3>
+                        <p class="card-text">Penjelasan dasar tentang beton bertulang, mengapa digunakan, dan bagaimana cara kerjanya dalam konstruksi modern.</p>
+                        <a class="read-more" href="#">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card reveal" onclick="switchPage('blog')">
+                    <div class="card-img"><span>MANAJEMEN PROYEK</span></div>
+                    <div class="card-body">
+                        <div><span class="badge">Pengalaman Kuliah</span></div>
+                        <div class="card-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 25 Jan 2025</span>
+                            <span><i class="fa-regular fa-clock"></i> 7 Min Baca</span>
+                        </div>
+                        <h3 class="card-title">Pengalaman KKN di Desa: Membangun Jembatan Sederhana</h3>
+                        <p class="card-text">Cerita nyata selama Kuliah Kerja Nyata membantu warga desa merancang dan membangun infrastruktur penghubung.</p>
+                        <a class="read-more" href="#">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card reveal" onclick="switchPage('blog')">
+                    <div class="card-img"><span>GEOTEKNIK</span></div>
+                    <div class="card-body">
+                        <div><span class="badge">Tutorial</span></div>
+                        <div class="card-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 05 Feb 2025</span>
+                            <span><i class="fa-regular fa-clock"></i> 4 Min Baca</span>
+                        </div>
+                        <h3 class="card-title">Tips Lulus Mata Kuliah Mekanika Tanah</h3>
+                        <p class="card-text">Strategi belajar efektif, memahami parameter tanah, dan trik menaklukkan ujian laboratorium mekanika tanah.</p>
+                        <a class="read-more" href="#">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div id="page-tentang" class="page">
+        <section class="container section-padding">
+            <div class="about-layout">
+                <div class="profile-sidebar reveal">
+                    <img src="https://ui-avatars.com/api/?name=Sabil+Zukhrufi+Abdilah&background=silver&color=000&size=200" alt="Sabil">
+                    <h3>Sabil Zukhrufi Abdilah</h3>
+                    <p style="color:var(--gray-text); font-size:0.85rem; margin-top:0.3rem;">Future Civil Engineer</p>
+                    
+                    <ul class="profile-info-list">
+                        <li><span>Jurusan:</span> <span>Teknik Sipil</span></li>
+                        <li><span>Universitas:</span> <span>Politeknik Negeri Semarang</span></li>
+                        <li><span>Kota:</span> <span>Semarang</span></li>
+                        <li><span>Email:</span> <span>zukhrufist@gmail.com</span></li>
+                    </ul>
+                </div>
+
+                <div class="profile-main reveal">
+                    <h2>Tentang Saya</h2>
+                    <p class="bio-text">
+                        Halo! Saya Sabil Zukhrufi Abdilah, mahasiswa Teknik Sipil di Politeknik Negeri Semarang yang memiliki antusiasme tinggi terhadap perkembangan infrastruktur dan rekayasa struktural. Saya bermimpi untuk menjadi seorang Civil Engineer profesional yang berkontribusi nyata dalam merancang bangunan yang kokoh, aman, dan berkelanjutan. Di samping kesibukan menganalisis beban struktural, saya adalah seorang yang suka berpetualang ke alam bebas, aktif berolahraga untuk menjaga kebugaran, serta gemar mengeksplorasi hal-hal baru. Menulis blog menjadi wadah eskapisme edukatif saya untuk menyalurkan gagasan, berbagi ilmu teknik sipil, sekaligus mengasah kemampuan komunikasi literasi digital saya.
+                    </p>
+
+                    <div class="skills-section">
+                        <h3>Keahlian Teknikal</h3>
+                        
+                        <div class="skill-item">
+                            <div class="skill-info"><span>AutoCAD</span> <span>80%</span></div>
+                            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>SAP2000</span> <span>60%</span></div>
+                            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="60%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Microsoft Office</span> <span>90%</span></div>
+                            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Analisis Struktur</span> <span>70%</span></div>
+                            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="70%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Mekanika Tanah</span> <span>65%</span></div>
+                            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="65%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info"><span>Menulis Blog</span> <span>80%</span></div>
+                            <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="80%"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="hobbies-section">
+                        <h3>Hobi & Minat</h3>
+                        <div class="hobbies-grid">
+                            <div class="hobby-card"><i class="fa-solid fa-book"></i><p>Membaca</p></div>
+                            <div class="hobby-card"><i class="fa-solid fa-pen-nib"></i><p>Menulis</p></div>
+                            <div class="hobby-card"><i class="fa-solid fa-compass"></i><p>Traveling</p></div>
+                            <div class="hobby-card"><i class="fa-solid fa-camera"></i><p>Fotografi</p></div>
+                            <div class="hobby-card"><i class="fa-solid fa-dumbbell"></i><p>Olahraga</p></div>
+                            <div class="hobby-card"><i class="fa-solid fa-code"></i><p>Software Engineering</p></div>
+                        </div>
+                    </div>
+
+                    <div class="contact-quick">
+                        <div class="contact-grid">
+                            <div>
+                                <h4>Hubungi Saya</h4>
+                                <p style="font-size:0.85rem; color:var(--gray-text); margin: 0.5rem 0 1.5rem 0;">Punya pertanyaan seputar kuliah atau kolaborasi proyek? Kirim pesan Anda.</p>
+                                <form onsubmit="event.preventDefault(); alert('Pesan Anda berhasil (simulasi) terkirim!');">
+                                    <div class="form-group">
+                                        <label>Nama</label>
+                                        <input type="text" class="form-control" required placeholder="Nama lengkap">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" required placeholder="Alamat email aktif">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Pesan</label>
+                                        <textarea class="form-control" rows="4" required placeholder="Tulis pesan Anda disini..."></textarea>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit" style="width:100%">Kirim Pesan</button>
+                                </form>
+                            </div>
+                            <div class="social-large-container">
+                                <p>Atau terhubung langsung via media sosial</p>
+                                <div class="social-icons-large">
+                                    <a href="https://www.instagram.com/nyomankenthir/" target="_blank" class="social-icon-box"><i class="fa-brands fa-instagram"></i></a>
+                                    <a href="#" class="social-icon-box"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    <a href="#" class="social-icon-box"><i class="fa-brands fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div id="page-blog" class="page">
+        <section class="container section-padding">
+            <div class="blog-header reveal">
+                <h1>Blog Saya</h1>
+                <p>Catatan perjalanan belajar teknik sipil, pengalaman kuliah, dan hal-hal menarik lainnya</p>
+            </div>
+
+            <div class="filter-container reveal">
+                <button class="filter-btn active-filter" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="teknik-sipil">Teknik Sipil</button>
+                <button class="filter-btn" data-filter="pengalaman-kuliah">Pengalaman Kuliah</button>
+                <button class="filter-btn" data-filter="tutorial">Tutorial</button>
+                <button class="filter-btn" data-filter="opini">Opini</button>
+                <button class="filter-btn" data-filter="kehidupan-kampus">Kehidupan Kampus</button>
+            </div>
+
+            <div class="main-sidebar-layout">
+                <div>
+                    <div class="blog-grid-2" id="blogGrid">
+                        <div class="card reveal" data-category="teknik-sipil">
+                            <div class="card-img"><span>BETON BERTULANG</span></div>
+                            <div class="card-body">
+                                <div><span class="badge">Teknik Sipil</span></div>
+                                <h3 class="card-title" style="margin-top:0.8rem;">Mengenal Struktur Beton Bertulang untuk Pemula</h3>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 10 Jan 2025</span>
+                                    <span><i class="fa-regular fa-clock"></i> 5 mnt baca</span>
+                                </div>
+                                <p class="card-text">Penjelasan dasar tentang beton bertulang, mengapa digunakan, dan bagaimana cara kerjanya dalam konstruksi modern.</p>
+                                <button class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="openArticle()">Baca Artikel <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card reveal" data-category="pengalaman-kuliah">
+                            <div class="card-img"><span>DRAINASE DESA</span></div>
+                            <div class="card-body">
+                                <div><span class="badge">Pengalaman Kuliah</span></div>
+                                <h3 class="card-title" style="margin-top:0.8rem;">Pengalaman KKN: Membangun Gorong-gorong di Desa Terpencil</h3>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 25 Jan 2025</span>
+                                    <span><i class="fa-regular fa-clock"></i> 7 mnt baca</span>
+                                </div>
+                                <p class="card-text">Cerita nyata selama KKN membantu warga desa memperbaiki sistem drainase sederhana secara efisien.</p>
+                                <button class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="openArticle()">Baca Artikel <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card reveal" data-category="tutorial">
+                            <div class="card-img"><span>MEKANIKA TANAH</span></div>
+                            <div class="card-body">
+                                <div><span class="badge">Tutorial</span></div>
+                                <h3 class="card-title" style="margin-top:0.8rem;">Tips Ampuh Lulus Mekanika Tanah dengan Nilai A</h3>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 05 Feb 2025</span>
+                                    <span><i class="fa-regular fa-clock"></i> 4 mnt baca</span>
+                                </div>
+                                <p class="card-text">Strategi belajar praktis, referensi buku terbaik, dan cara memahami karakteristik konsolidasi tanah dengan mudah.</p>
+                                <button class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="openArticle()">Baca Artikel <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card reveal" data-category="tutorial">
+                            <div class="card-img"><span>ANALISIS STRUKTUR</span></div>
+                            <div class="card-body">
+                                <div><span class="badge">Tutorial</span></div>
+                                <h3 class="card-title" style="margin-top:0.8rem;">Review Buku: Structural Analysis oleh Hibbeler</h3>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 14 Feb 2025</span>
+                                    <span><i class="fa-regular fa-clock"></i> 6 mnt baca</span>
+                                </div>
+                                <p class="card-text">Ulasan lengkap buku wajib mahasiswa teknik sipil, kelebihan, kekurangan, serta cara sistematis menggunakannya.</p>
+                                <button class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="openArticle()">Baca Artikel <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card reveal" data-category="opini">
+                            <div class="card-img"><span>CIVIL ENGINEERING</span></div>
+                            <div class="card-body">
+                                <div><span class="badge">Opini</span></div>
+                                <h3 class="card-title" style="margin-top:0.8rem;">Kenapa Saya Memilih Jurusan Teknik Sipil</h3>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 01 Mar 2025</span>
+                                    <span><i class="fa-regular fa-clock"></i> 3 mnt baca</span>
+                                </div>
+                                <p class="card-text">Cerita idealis di balik keputusan memilih prodi teknik sipil dan esensi pembangunan infrastruktur bagi kemanusiaan.</p>
+                                <button class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="openArticle()">Baca Artikel <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card reveal" data-category="kehidupan-kampus">
+                            <div class="card-img"><span>DESIGN SOFTWARE</span></div>
+                            <div class="card-body">
+                                <div><span class="badge">Kehidupan Kampus</span></div>
+                                <h3 class="card-title" style="margin-top:0.8rem;">Kehidupan Mahasiswa Teknik: Antara Gambar Manual dan AutoCAD</h3>
+                                <div class="card-meta">
+                                    <span><i class="fa-regular fa-calendar"></i> 20 Mar 2025</span>
+                                    <span><i class="fa-regular fa-clock"></i> 5 mnt baca</span>
+                                </div>
+                                <p class="card-text">Perbandingan dinamika pengerjaan gambar manual di atas meja kalkir vs presisi digital komputer berbasis AutoCAD.</p>
+                                <button class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.8rem;" onclick="openArticle()">Baca Artikel <i class="fa-solid fa-arrow-right" style="margin-left:5px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pagination reveal">
+                        <div class="page-num active-page-num">1</div>
+                        <div class="page-num">2</div>
+                        <div class="page-num">3</div>
+                        <div class="page-num" style="width:auto; padding:0 1rem;">Next <i class="fa-solid fa-arrow-right" style="font-size:0.75rem; margin-left:5px;"></i></div>
+                    </div>
+                </div>
+
+                <div class="sidebar reveal">
+                    <div class="widget">
+                        <h3 class="widget-title">Cari Artikel</h3>
+                        <div class="search-box">
+                            <input type="text" placeholder="Ketik kata kunci...">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <h3 class="widget-title">Artikel Populer</h3>
+                        <div class="popular-posts-list">
+                            <div class="pop-post-item" onclick="openArticle()">
+                                <div class="pop-post-thumb">BETON</div>
+                                <div class="pop-post-info">
+                                    <h4>Struktur Beton Bertulang Untuk Pemula</h4>
+                                    <span>10 Jan 2025</span>
+                                </div>
+                            </div>
+                            <div class="pop-post-item" onclick="openArticle()">
+                                <div class="pop-post-thumb">SOIL</div>
+                                <div class="pop-post-info">
+                                    <h4>Tips Ampuh Lulus Mekanika Tanah</h4>
+                                    <span>05 Feb 2025</span>
+                                </div>
+                            </div>
+                            <div class="pop-post-item" onclick="openArticle()">
+                                <div class="pop-post-thumb">CAD</div>
+                                <div class="pop-post-info">
+                                    <h4>Dinamika Menggambar AutoCAD</h4>
+                                    <span>20 Mar 2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="widget">
+                        <h3 class="widget-title">Kategori</h3>
+                        <ul class="widget-category-list">
+                            <li onclick="setCategoryFilter('teknik-sipil')"><span>Teknik Sipil</span> <span>1</span></li>
+                            <li onclick="setCategoryFilter('pengalaman-kuliah')"><span>Pengalaman Kuliah</span> <span>1</span></li>
+                            <li onclick="setCategoryFilter('tutorial')"><span>Tutorial</span> <span>2</span></li>
+                            <li onclick="setCategoryFilter('opini')"><span>Opini</span> <span>1</span></li>
+                            <li onclick="setCategoryFilter('kehidupan-kampus')"><span>Kehidupan Kampus</span> <span>1</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="widget">
+                        <h3 class="widget-title">Tag Cloud</h3>
+                        <div class="tag-cloud">
+                            <span class="tag-item">#beton</span>
+                            <span class="tag-item">#autocad</span>
+                            <span class="tag-item">#struktur</span>
+                            <span class="tag-item">#tanah</span>
+                            <span class="tag-item">#kkn</span>
+                            <span class="tag-item">#hibbeler</span>
+                            <span class="tag-item">#kuliah</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div id="page-detail-artikel" class="page">
+        <section class="container section-padding">
+            <div class="main-sidebar-layout">
+                <article class="reveal">
+                    <div class="breadcrumb">
+                        <a onclick="switchPage('beranda')" style="cursor:pointer;">Beranda</a>
+                        <span>&gt;</span>
+                        <a onclick="switchPage('blog')" style="cursor:pointer;">Blog</a>
+                        <span>&gt;</span>
+                        <span style="color: var(--accent);">Mengenal Struktur Beton Bertulang...</span>
+                    </div>
+
+                    <div class="article-header">
+                        <h1>Mengenal Struktur Beton Bertulang untuk Pemula</h1>
+                        <div class="article-meta-large">
+                            <span><i class="fa-regular fa-user"></i> Sabil Zukhrufi Abdilah</span>
+                            <span><i class="fa-regular fa-calendar"></i> 10 Januari 2025</span>
+                            <span><i class="fa-regular fa-folder"></i> Teknik Sipil</span>
+                            <span><i class="fa-regular fa-clock"></i> 5 Menit Baca</span>
+                        </div>
+                    </div>
+
+                    <div class="featured-image-large">
+                        REINFORCED CONCRETE STRUCTURE ANALYSIS
+                    </div>
+
+                    <div class="article-content">
+                        <h2>Pendahuluan tentang Beton Bertulang</h2>
+                        <p>
+                            Dalam lanskap infrastruktur modern, struktur komposit yang paling mendominasi pembangunan gedung bertingkat, jembatan, bendungan, dan saluran drainase adalah beton bertulang. Sebagai mahasiswa teknik sipil, memahami material komposit ini bukan sekadar kewajiban kurikulum akademis, melainkan fondasi absolut sebelum melangkah ke perancangan yang lebih kompleks. Beton bertulang menawarkan solusi optimal dalam memikul kombinasi berbagai jenis gaya mekanis eksternal yang bekerja pada bangunan.
+                        </p>
+
+                        <h2>Apa itu Beton dan Baja Tulangan?</h2>
+                        <p>
+                            Untuk memahami materi komposit ini, kita harus membedah dua elemen penyusun utamanya terlebih dahulu. Yang pertama adalah <strong>beton konvensional</strong>, sebuah material artifisial hasil pencampuran semen portland, agregat kasar (batu pecah/split), agregat halus (pasir), dan air dengan rasio tertentu. Karakteristik paling menonjol dari beton adalah memiliki kapasitas kuat tekan (*compressive strength*) yang sangat masif, namun memiliki kelemahan fatal berupa kuat tarik (*tensile strength*) yang sangat rendah (hanya berkisar antara 10% hingga 15% dari kuat tekannya).
+                        </p>
+                        <p>
+                            Elemen kedua adalah <strong>baja tulangan</strong> (*reinforcement bars* atau *rebar*). Kebalikan dari beton, baja memiliki perilaku struktural berupa kapasitas kuat tarik yang sangat elastis dan masif. Dengan memposisikan batang baja di area penampang struktural yang diprediksi mengalami deformasi tegangan tarik, kita dapat menutupi kecacatan alami dari beton konvensional tersebut.
+                        </p>
+
+                        <blockquote>
+                            "Penggabungan beton dan baja tulangan memanfaatkan keunggulan mekanis masing-masing material untuk menciptakan struktur komposit yang kokoh terhadap gaya tekan maupun tarik."
+                        </blockquote>
+
+                        <h2>Mengapa Digabungkan? (Prinsip Dasar Mekanika)</h2>
+                        <p>
+                            Ketika sebuah balok struktur menerima beban lateral vertikal (seperti beban hidup manusia atau beban mati lantai), balok tersebut akan mengalami fenomena lentur (*bending*). Berdasarkan hukum mekanika rekayasa struktural, penampang balok bagian atas akan mengalami pemendekan akibat tegangan tekan (*compression zones*), sedangkan penampang komponen bawah akan mengalami perpanjangan akibat regangan tarik (*tension zones*).
+                        </p>
+                        <p>
+                            Jika kita hanya menggunakan beton polos tanpa perkuatan internal, bagian bawah balok akan mengalami keretakan seketika (*brittle failure*) begitu beban melampaui kapasitas tarik beton yang minim. Di sinilah rekayasa sipil memainkan perannya: baja dimasukkan ke dalam cetakan (*bekisting*) sebelum pencairan beton dilakukan. Kolaborasi ini dapat berjalan harmonis karena adanya lekatan adhesi (*bond*) yang kuat antara permukaan semen dengan ulir baja, serta koefisien muai termal dari kedua material tersebut yang hampir identik ($10 \times 10^{-6}/^{\circ}\text{C}$ untuk beton dan $12 \times 10^{-6}/^{\circ}\text{C}$ untuk baja). Kesamaan ini mencegah terjadinya disintegrasi atau slip internal saat terjadi fluktuasi perubahan suhu ekstrem pada lingkungan sekitar gedung.
+                        </p>
+
+                        <h2>Jenis-jenis Komponen Beton Bertulang</h2>
+                        <p>
+                            Dalam sebuah struktur bangunan gedung terintegrasi, komponen beton bertulang umumnya diklasifikasikan ke dalam beberapa elemen struktural primer, yaitu:
+                        </p>
+                        <h3>1. Pelat Lantai (Slab)</h3>
+                        <p>Elemen struktural bidang datar dua dimensi tipis yang menerima beban tegangan merata secara langsung dari aktivitas di atas lantai bangunan, kemudian meneruskannya ke balok penumpu terdekat.</p>
+                        <h3>2. Balok (Beam)</h3>
+                        <p>Komponen struktural horisontal aksial yang menerima distribusi beban vertikal dari pelat lantai dan momen lentur, lalu menyalurkannya menuju kolom tumpuan vertikal di kedua ujungnya.</p>
+                        <h3>3. Kolom (Column)</h3>
+                        <p>Sering disebut sebagai tiang pancang internal penyangga utama gedung. Komponen vertikal ini bertugas memikul seluruh beban kompresi aksial dari lantai atas menuju sistem fondasi paling bawah bangunan. Kegagalan fungsi satu elemen kolom dapat memicu keruntuhan progresif (*progressive collapse*) total pada seluruh bangunan.</p>
+
+                        <h2>Contoh Penggunaan dalam Konstruksi Nyata</h2>
+                        <p>
+                            Aplikasi dari ilmu komposit beton bertulang ini dapat dengan mudah kita jumpai di sekeliling kita. Mulai dari proyek pembangunan gedung kuliah berlantai banyak, struktur jembatan *box girder*, dinding penahan tanah (*retaining walls*) di tebing rawan longsor, hingga struktur terowongan bawah tanah. Keluwesan pengerjaan beton yang dapat dicor mengikuti bentuk arsitektur cetakan apapun menjadikannya material primadona utama dalam dunia teknik sipil global saat ini.
+                        </p>
+
+                        <h2>Kesimpulan dan Penutup</h2>
+                        <p>
+                            Mempelajari rekayasa beton bertulang mengajarkan kita arti penting sinergi elemen yang berbeda untuk mencapai satu tujuan kekuatan fungsional yang solid. Dengan menguasai konsep distribusi tegangan tekan dan tarik, pemuaian termal, serta batas layan deformasi, seorang calon insinyur dapat merancang infrastruktur publik yang aman, ekonomis, serta berumur panjang demi kemaslahatan masyarakat luas. Tetap semangat belajar rekayasa struktur, satu langkah komputasi dalam satu waktu!
+                        </p>
+                    </div>
+
+                    <div class="article-footer-tags">
+                        <span class="article-tag"><strong>Tags:</strong></span>
+                        <span class="tag-item">#beton</span>
+                        <span class="tag-item">#strukturbangunan</span>
+                        <span class="tag-item">#tekniksipil</span>
+                    </div>
+
+                    <div class="share-box-container">
+                        <span>Bagikan artikel ini:</span>
+                        <div class="share-social-btns">
+                            <button class="share-btn" onclick="alert('Link disalin ke clipboard!')"><i class="fa-solid fa-link"></i> Copy Link</button>
+                            <button class="share-btn" style="color:#25D366;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+                            <button class="share-btn" style="color:#E1306C;"><i class="fa-brands fa-instagram"></i> Instagram</button>
+                        </div>
+                    </div>
+
+                    <div class="related-posts">
+                        <h3>Artikel Terkait</h3>
+                        <div class="grid-3" style="grid-template-columns: repeat(3, 1fr) !important;">
+                            <div class="card" onclick="openArticle()">
+                                <div class="card-img" style="height:120px;"><span>MEKTEK</span></div>
+                                <div class="card-body" style="padding:1rem;">
+                                    <h4 style="font-size:0.95rem;">Tips Lulus Mekanika Tanah Nilai A</h4>
+                                </div>
+                            </div>
+                            <div class="card" onclick="openArticle()">
+                                <div class="card-img" style="height:120px;"><span>BUKU</span></div>
+                                <div class="card-body" style="padding:1rem;">
+                                    <h4 style="font-size:0.95rem;">Review Buku Struktur Hibbeler</h4>
+                                </div>
+                            </div>
+                            <div class="card" onclick="openArticle()">
+                                <div class="card-img" style="height:120px;"><span>AUTOCAD</span></div>
+                                <div class="card-body" style="padding:1rem;">
+                                    <h4 style="font-size:0.95rem;">Belajar AutoCAD Dasar Pemula</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comments-section">
+                        <h3>Komentar (2)</h3>
+                        <div class="comments-list">
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-author">Andi Wijaya (Mhs Sipil Undip)</span>
+                                    <span class="comment-date">11 Januari 2025</span>
+                                </div>
+                                <p class="comment-text">Penjelasannya sangat runut, bro! Sangat membantu buat saya yang minggu depan mau kuis analisis struktur beton bertulang. Khususnya bagian rasio muai termal itu sering lupa keluar di ujian.</p>
+                            </div>
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-author">Rian Saputra</span>
+                                    <span class="comment-date">12 Januari 2025</span>
+                                </div>
+                                <p class="comment-text">Buku Hibbeler emang top buat latihan soal lentur penampang komposit kayak gini. Ditunggu tulisan bahasan prategang (prestressed concrete), Sabil!</p>
+                            </div>
+                        </div>
+
+                        <div class="comment-form-container">
+                            <h4>Tinggalkan Komentar</h4>
+                            <form onsubmit="event.preventDefault(); alert('Komentar Anda sedang dimoderasi.');">
+                                <div class="form-group">
+                                    <label>Nama Anda</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Komentar</label>
+                                    <textarea class="form-control" rows="5" required></textarea>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Kirim Komentar</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </article>
+
+                <div class="sidebar">
+                    <div class="widget">
+                        <h3 class="widget-title">Kategori</h3>
+                        <ul class="widget-category-list">
+                            <li onclick="switchPage('blog')"><span>Teknik Sipil</span> <span>1</span></li>
+                            <li onclick="switchPage('blog')"><span>Pengalaman Kuliah</span> <span>1</span></li>
+                            <li onclick="switchPage('blog')"><span>Tutorial</span> <span>2</span></li>
+                        </ul>
+                    </div>
+                    <div class="widget">
+                        <h3 class="widget-title">Penulis</h3>
+                        <div style="text-align:center; padding:1rem 0;">
+                            <img src="https://ui-avatars.com/api/?name=Sabil+Zukhrufi+Abdilah&background=silver&color=000&size=100" style="border-radius:50%; margin-bottom:1rem;" alt="Sabil">
+                            <p style="font-size:0.9rem; font-weight:600;">Sabil Zukhrufi Abdilah</p>
+                            <p style="font-size:0.75rem; color:var(--gray-text); margin-top:0.3rem;">Politeknik Negeri Semarang</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="page-portfolio" class="page">
+        <section class="container placeholder-page">
+            <h1>Portofolio Proyek</h1>
+            <p style="color:var(--gray-text); margin-bottom: 2rem;">Galeri rancang bangun maket, desain AutoCAD, dan kalkulasi analisis struktur SAP2000 Sabil Zukhrufi Abdilah.</p>
+            <button class="btn btn-primary" onclick="switchPage('beranda')">Kembali ke Beranda</button>
+        </section>
+    </div>
+
+    <div id="page-kontak" class="page">
+        <section class="container placeholder-page">
+            <h1>Kontak Saya</h1>
+            <p style="color:var(--gray-text); margin-bottom: 2rem;">Form kontak terintegrasi penuh dapat diakses di bagian bawah menu halaman "Tentang Saya".</p>
+            <button class="btn btn-primary" onclick="switchPage('tentang')">Buka Halaman Kontak Terintegrasi</button>
+        </section>
+    </div>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-layout">
+                <div class="footer-brand">
+                    <h3>SABIL ZUKHRUFI ABDILAH</h3>
+                    <p>"Mahasiswa Teknik Sipil yang sedang membangun mimpi, satu struktur dalam satu waktu"</p>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://www.instagram.com/nyomankenthir/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Sabil Zukhrufi Abdilah. All Rights Reserved. Built with Modern Minimalist Architect Vibe.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // 1. LOADING SCREEN DISMISSAL
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+                triggerScrollAnimations(); // Trigger initial check for visible sections
+            }, 800); // Small delay for visual aesthetic
+        });
+
+        // 2. SPA NAVIGATION LOGIC
+        function switchPage(pageId) {
+            // Hide all pages, remove active classes
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-nav');
+            });
+
+            // Show current target page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if(targetPage) {
+                targetPage.classList.add('active-page');
+                window.scrollTo(0, 0);
+                
+                // Active link visual adjustment
+                const activeLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+                if(activeLink) activeLink.classList.add('active-nav');
+            }
+
+            // Mobile menu auto close upon selection
+            document.getElementById('navMenu').classList.remove('active');
+
+            // Trigger Skill bar animation explicitly if coming to 'tentang' page
+            if (pageId === 'tentang') {
+                animateSkillBars();
+            }
+            
+            // Re-trigger scroll element recognition
+            setTimeout(triggerScrollAnimations, 100);
+        }
+
+        // Click handler binding for Nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const target = this.getAttribute('data-page');
+                switchPage(target);
+            });
+        });
+
+        // Hamburger Responsive Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Quick redirection to article view (Simulated navigation)
+        function openArticle() {
+            switchPage('blog'); // Sync navbar parent state
+            // Un-active link highlights because article is child of blog
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active-nav'));
+            document.querySelector('.nav-link[data-page="blog"]').classList.add('active-nav');
+            
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById('page-detail-artikel').classList.add('active-page');
+            window.scrollTo(0, 0);
+        }
+
+        // 3. TYPING ANIMATION (HERO IN HOMEPAGE)
+        const words = ["Teknik Sipil", "Blogger", "Future Engineer"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingSpeed = 100;
+        const erasingSpeed = 50;
+        const delayBetweenWords = 2000;
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            const typingTextSpan = document.querySelector(".typing-text");
+            
+            if(!typingTextSpan) return; // Prevent break if switching away from homepage instantly
+
+            if (isDeleting) {
+                typingTextSpan.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingTextSpan.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, delayBetweenWords);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                setTimeout(typeEffect, 500);
+            } else {
+                setTimeout(typeEffect, isDeleting ? erasingSpeed : typingSpeed);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            if(document.querySelector(".typing-text")) {
+                setTimeout(typeEffect, 1000);
+            }
+        });
+
+        // 4. SCROLL BEHAVIOR CONTROL (STICKY HEADER & BACK TO TOP)
+        const navbar = document.getElementById('navbar');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', () => {
+            // Sticky Nav
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Scroll Top Button Visibility
+            if (window.scrollY > 400) {
+                scrollTopBtn.style.display = "flex";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+
+            triggerScrollAnimations();
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 5. REVEAL ANIMATIONS ON SCROLL
+        function triggerScrollAnimations() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        // 6. SKILL BAR ANIMATION MECHANISM
+        function animateSkillBars() {
+            const fills = document.querySelectorAll('.skill-bar-fill');
+            setTimeout(() => {
+                fills.forEach(fill => {
+                    const targetWidth = fill.getAttribute('data-width');
+                    fill.style.width = targetWidth;
+                });
+            }, 300);
+        }
+
+        // 7. BLOG CATEGORY FILTERING ARCHITECTURE
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('#blogGrid .card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Change active class on category buttons
+                filterButtons.forEach(btn => btn.classList.remove('active-filter'));
+                this.classList.add('active-filter');
+
+                const filterValue = this.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    if (filterValue === 'all') {
+                        card.style.display = 'flex';
+                    } else {
+                        if (card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // Direct activation shortcut via categories inside widgets
+        function setCategoryFilter(categoryKey) {
+            switchPage('blog');
+            const targetFilterBtn = document.querySelector(`.filter-btn[data-filter="${categoryKey}"]`);
+            if(targetFilterBtn) {
+                targetFilterBtn.click();
+            }
+        }
+    </script>
+</body>
+</html>
